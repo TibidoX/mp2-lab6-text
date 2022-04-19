@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include "TNode.h"
-#include "TMem.h"
+//#include "TMem.h"
 #include "TStack.h"
 using namespace std;
 

@@ -12,6 +12,8 @@
 #include "conio.h"
 using namespace std;
 
+
+TMem TNode::mem;
 void main()
 {
 	char ch;

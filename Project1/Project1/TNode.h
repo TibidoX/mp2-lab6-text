@@ -1,9 +1,19 @@
 #pragma once
 #include <cstring>
-#include "TMem.h"
-#include "TText.h"
+#include <iostream>
+//#include "TMem.h"
+//#include "TText.h"
 
 using namespace std;
+
+class TText;
+struct  TNode;
+
+struct TMem
+{
+	TNode* pFirst, * pFree, * pLast;
+};
+
 
 struct TNode
 {
@@ -54,8 +64,8 @@ struct TNode
 		}
 		mem.pLast->pNext = nullptr;
 	}
-	static void CleanMem(TText& txt)
-	{
+	static void CleanMem(TText& txt);
+	/*{
 		TNode* p = mem.pFree;
 		while (p)
 		{
@@ -73,7 +83,7 @@ struct TNode
 			}
 			p++;
 		}
-	}
+	}*/
 
 	static void PrintFree()
 	{
