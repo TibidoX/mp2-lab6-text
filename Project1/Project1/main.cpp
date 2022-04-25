@@ -1,6 +1,6 @@
 #define HOME	71
-#define DOWN	80
-#define NEXT	77
+#define DOWN	100
+#define NEXT	110
 #define UP	72
 #define ESC	27
 #define INS	82
@@ -16,27 +16,57 @@ using namespace std;
 TMem TNode::mem;
 void main()
 {
-	char ch;
+	TNode::InitMem();
+	ifstream ifs("TestText.txt");
 	TText text;
+
+	text.SetFirst(text.ReadRec(ifs));
+	text.ReadRec(ifs);
+	text.Reset();
+	char ch;
+	char* s = new char[100];
+	//TText text;
 	do {
-		cout << ">,v,^, Home, Ins, Del, Enter, Esc";
+		cout << "n - Insert next line" << endl;
+		cout << "d - Insert down line" << endl;
+		cout << "p - Print" << endl;
 		ch = _getch();
-		if (ch == 0xE0) ch = _getch();
+		//if (ch == 0xE0) ch = _getch();
 		if (ch == ESC) break;
-		if (ch != ENTER) ch = _getch();
+		//if (ch != ENTER) ch = _getch();
 		switch (ch) {
 		case ENTER:
 			break;
-		case HOME: text.GoFirstLine(); break;
-		case DOWN:text.GoDownLine(); break;
-		case NEXT:text.GoNextLine(); break;
+		case HOME: {text.GoFirstLine(); break; }
+		case DOWN: {cin >> s; text.InsDownLine(s); text.GoDownLine(); break; }
+		case NEXT: {cin >> s; text.InsNextLine(s); text.GoNextLine(); break; }
 		case UP:  text.GoPrevLine(); break;
 		case INS:
 			break;
 		case DEL:
 			break;
-
+		case 49:text.Print(); break;
 		}
 	} while (ch != ESC);
 
+
+	/*TNode::InitMem();
+	ifstream ifs("TestText.txt");
+	TText text;
+
+	text.SetFirst(text.ReadRec(ifs));
+	text.ReadRec(ifs);
+	text.Reset();
+	text.InsDownLine((char*)"First.First");
+	text.GoDownLine();
+	text.InsDownLine((char*)"First.First.First");
+	text.GoDownLine();
+	text.InsDownLine((char*)"First.First.Second");
+	text.GoDownLine();
+	text.InsDownSec((char*)"oooooooooooooooooooooooooooooo");
+	text.GoDownLine();
+	text.InsNextLine((char*)"rrrrrrrrrrrrrrr");
+
+
+	text.Print();*/
 }

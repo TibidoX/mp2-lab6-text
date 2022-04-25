@@ -14,6 +14,7 @@ class TText
 	int count;
 public:
 	TText(TNode* p) { pFirst = p; }
+	void SetFirst(TNode* p){ pFirst = p; }
 	TText() { pFirst = nullptr; pCurr = nullptr; }
 	TText* Copy()
 	{
@@ -112,7 +113,7 @@ public:
 
 	TNode* ReadRec(ifstream& ifs)
 	{
-		TNode* pHead, * tmp;
+		TNode* pHead = nullptr, * tmp = nullptr;
 		char buf[81];
 
 		while (!ifs.eof())
@@ -142,19 +143,49 @@ public:
 		ifstream ifs(fn);
 		pFirst = ReadRec(ifs);
 	}
-	void PrintRec(TNode* p)
+	void PrintRec(TNode* p, int c)
 	{
-		if (p)
+		/*if (p)
 		{
 			cout << p->str << endl;
 			PrintRec(p->pDown);
 			PrintRec(p->pNext);
+		}*/
+
+		if (p) {
+			cout << p->str << endl;
+			if (p->pDown) {
+				c++;
+				for (int i = 0; i < c - 1; i++)
+				{
+					cout << "  ";
+				}
+				cout << '{' << endl;
+				for (int i = 0; i < c; i++)
+				{
+					cout << "  ";
+				}
+				PrintRec(p->pDown, c);
+				for (int i = 0; i < c - 1; i++)
+				{
+					cout << "  ";
+				}
+				cout << '}' << endl;
+				c--;
+			}
+			if (p->pNext) {
+				for (int i = 0; i < c; i++)
+				{
+					cout << "  ";
+				}
+				PrintRec(p->pNext, c);
+			}
 		}
 	}
 	void Print()
 	{
-		count = 0;
-		PrintRec(pFirst);
+		//count = 0;
+		PrintRec(pFirst, 0);
 	}
 	bool IsEnd() { return st.Empty(); }
 	void Reset()
