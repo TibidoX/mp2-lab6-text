@@ -58,10 +58,11 @@ struct TNode
 		for (int i = 0; i < s - 1; i++)
 		{
 			p->pNext = p + 1;
-			p++;
 			p->str[0] = '\0';
 			p->flag = false;
+			p++;
 		}
+		mem.pLast->str[0] = '\0';
 		mem.pLast->pNext = nullptr;
 	}
 	static void CleanMem(TText& txt);
@@ -90,8 +91,10 @@ struct TNode
 		TNode* p = mem.pFree;
 		while (p)
 		{
-			cout << p;
-			p++;
+			//cout << p;
+			if (p->str[0] != '\0' )
+				cout << p->str<<endl;
+			p = p->pNext;
 		}
 	}
 

@@ -16,41 +16,41 @@ using namespace std;
 TMem TNode::mem;
 void main()
 {
-	TNode::InitMem();
-	ifstream ifs("TestText.txt");
-	TText text;
-
-	text.SetFirst(text.ReadRec(ifs));
-	text.ReadRec(ifs);
-	text.Reset();
-	char ch;
-	char* s = new char[100];
+	//TNode::InitMem();
+	//ifstream ifs("TestText.txt");
 	//TText text;
-	do {
-		cout << "n - Insert next line" << endl;
-		cout << "d - Insert down line" << endl;
-		cout << "p - Print" << endl;
-		ch = _getch();
-		//if (ch == 0xE0) ch = _getch();
-		if (ch == ESC) break;
-		//if (ch != ENTER) ch = _getch();
-		switch (ch) {
-		case ENTER:
-			break;
-		case HOME: {text.GoFirstLine(); break; }
-		case DOWN: {cin >> s; text.InsDownLine(s); text.GoDownLine(); break; }
-		case NEXT: {cin >> s; text.InsNextLine(s); text.GoNextLine(); break; }
-		case UP:  text.GoPrevLine(); break;
-		case INS:
-			break;
-		case DEL:
-			break;
-		case 49:text.Print(); break;
-		}
-	} while (ch != ESC);
 
+	//text.SetFirst(text.ReadRec(ifs));
+	//text.ReadRec(ifs);
+	//text.Reset();
+	//char ch;
+	//char* s = new char[100];
+	////TText text;
+	//do {
+	//	cout << "n - Insert next line" << endl;
+	//	cout << "d - Insert down line" << endl;
+	//	cout << "p - Print" << endl;
+	//	ch = _getch();
+	//	//if (ch == 0xE0) ch = _getch();
+	//	if (ch == ESC) break;
+	//	//if (ch != ENTER) ch = _getch();
+	//	switch (ch) {
+	//	case ENTER:
+	//		break;
+	//	case HOME: {text.GoFirstLine(); break; }
+	//	case DOWN: {cin >> s; text.InsDownLine(s); text.GoDownLine(); break; }
+	//	case NEXT: {cin >> s; text.InsNextLine(s); text.GoNextLine(); break; }
+	//	case UP:  text.GoPrevLine(); break;
+	//	case INS:
+	//		break;
+	//	case DEL:
+	//		break;
+	//	case 49:text.Print(); break;
+	//	}
+	//} while (ch != ESC);
 
-	/*TNode::InitMem();
+	//TNode::PrintFree();
+	TNode::InitMem();
 	ifstream ifs("TestText.txt");
 	TText text;
 
@@ -66,7 +66,15 @@ void main()
 	text.InsDownSec((char*)"oooooooooooooooooooooooooooooo");
 	text.GoDownLine();
 	text.InsNextLine((char*)"rrrrrrrrrrrrrrr");
+	text.GoFirstLine();
+	text.DelDownLine();
+	//text.DelNextLine();
 
 
-	text.Print();*/
+	TNode::CleanMem(text);
+
+	text.Print();
+
+	cout << "Gtddd"<<endl;
+	TNode::PrintFree();
 }
