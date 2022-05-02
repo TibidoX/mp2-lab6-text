@@ -1,3 +1,6 @@
 First
+{
+  text
+}
 Second
 Third

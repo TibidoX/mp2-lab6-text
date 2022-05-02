@@ -3,7 +3,6 @@
 #include <iostream>
 #include <fstream>
 #include "TNode.h"
-//#include "TMem.h"
 #include "TStack.h"
 using namespace std;
 
@@ -11,7 +10,7 @@ class TText
 {
 	TNode* pFirst, * pCurr;
 	TStack<TNode*> st;
-	int count;
+	//int count = 0;
 public:
 	TText(TNode* p) { pFirst = p; }
 	void SetFirst(TNode* p){ pFirst = p; }
@@ -20,11 +19,34 @@ public:
 	{
 		return new TText(pFirst->CopyNode(pFirst));
 	}
+	void Pointer()
+	{
+		TNode* tmpP = pCurr;
+		TStack<TNode*> tmpS = st;
+		for (Reset(); !IsEnd(); GoNext())
+		{
+			int j = 0;
+			while (pCurr->str[j] != '\0') {
+				if (pCurr->str[j] == '<')
+					pCurr->str[j] = '\0';
+				j++;
+			}
+		}
+		pCurr = tmpP;
+		st = tmpS;
+		int i = 0;
+		while (pCurr->str[i] != '\0')
+			i++;
+		pCurr->str[i] = '<';
+		pCurr->str[i + 1] = '\0';
+	}
 	void GoNextLine()
 	{
 		if (pCurr != nullptr) {
 			st.Push(pCurr);
 			pCurr = pCurr->pNext;
+			//
+			Pointer();
 		}
 		else throw - 1;
 	}
@@ -34,6 +56,13 @@ public:
 		{
 			st.Push(pCurr);
 			pCurr = pCurr->pDown;
+			//
+			/*int i = 0;
+			while (pCurr->str[i] != '\0')
+				i++;
+			pCurr->str[i] = '<';
+			pCurr->str[i + 1] = '\0';*/
+			Pointer();
 		}
 		else throw - 1;
 	}
@@ -43,6 +72,8 @@ public:
 		{
 			pCurr = pFirst;
 			st.Clear();
+			//
+			Pointer();
 		}
 		else throw - 1;
 	}
@@ -52,6 +83,8 @@ public:
 		if (pCurr)
 			pCurr = st.Pop();
 		else throw - 1;
+		//
+		Pointer();
 	}
 
 	void InsNextLine(char str[])
@@ -145,13 +178,6 @@ public:
 	}
 	void PrintRec(TNode* p, int c)
 	{
-		/*if (p)
-		{
-			cout << p->str << endl;
-			PrintRec(p->pDown);
-			PrintRec(p->pNext);
-		}*/
-
 		if (p) {
 			cout << p->str << endl;
 			if (p->pDown) {
@@ -182,10 +208,62 @@ public:
 			}
 		}
 	}
+	void SaveRec(ofstream& os, TNode* p, int c)
+	{
+		TNode* tmpP = pCurr;
+		TStack<TNode*> tmpS = st;
+		for (Reset(); !IsEnd(); GoNext())
+		{
+			int j = 0;
+			while (pCurr->str[j] != '\0') {
+				if (pCurr->str[j] == '<')
+					pCurr->str[j] = '\0';
+				j++;
+			}
+		}
+		pCurr = tmpP;
+		st = tmpS;
+		//
+		if (p) {
+			os << p->str << endl;
+			if (p->pDown) {
+				c++;
+				for (int i = 0; i < c - 1; i++)
+				{
+					os << "  ";
+				}
+				os << '{' << endl;
+				for (int i = 0; i < c; i++)
+				{
+					os << "  ";
+				}
+				SaveRec(os, p->pDown, c);
+				for (int i = 0; i < c - 1; i++)
+				{
+					os << "  ";
+				}
+				os << '}' << endl;
+				c--;
+			}
+			if (p->pNext) {
+				for (int i = 0; i < c; i++)
+				{
+					os << "  ";
+				}
+				SaveRec(os, p->pNext, c);
+			}
+		}
+	}
+	void Save(char* fn)
+	{
+		ofstream os(fn);
+		SaveRec(os, pFirst, 0);
+	}
 	void Print()
 	{
 		//count = 0;
 		PrintRec(pFirst, 0);
+		
 	}
 	bool IsEnd() { return st.Empty(); }
 	void Reset()
@@ -197,6 +275,12 @@ public:
 			st.Push(pCurr->pNext);
 		if (pCurr->pDown)
 			st.Push(pCurr->pDown);
+		//Pointer();
+		int i = 0;
+		while (pCurr->str[i] != '\0')
+			i++;
+		pCurr->str[i] = '<';
+		pCurr->str[i + 1] = '\0';
 	}
 	void GoNext()
 	{
