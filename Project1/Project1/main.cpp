@@ -26,6 +26,7 @@ void main()
 		cout << "11. Print Free" << endl;
 		cout << "12. Print" << endl;
 		cout << "13. Save" << endl;
+		cout << "14. Clean memory" << endl;
 		cout << "0. Exit" << endl;
 
 		cin >> c;
@@ -43,6 +44,7 @@ void main()
 		case 11:{cout << endl; TNode::PrintFree(); cout << endl; break; }
 		case 12:{cout << endl; text.Print(); cout << endl; break; }
 		case 13: {text.Save((char*)"TestText.txt"); break; }
+		case 14: {TNode::CleanMem(text); break; }
 		}
 	} while (c != 0);
 

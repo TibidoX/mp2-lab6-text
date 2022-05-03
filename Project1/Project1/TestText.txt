@@ -1,6 +1,28 @@
 First
 {
-  text
+  text1
+  {
+    teeeext
+  }
+  text2
 }
 Second
-Third
+{
+  down_sec
+  {
+    test_down
+    text3
+  }
+}
+next_sec
+{
+  test_line
+  Third
+  {
+    abc
+    dfew
+    {
+      ooooo
+    }
+  }
+}
