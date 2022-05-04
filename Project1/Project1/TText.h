@@ -19,7 +19,7 @@ public:
 	{
 		return new TText(pFirst->CopyNode(pFirst));
 	}
-	void Pointer()
+	/*void Pointer()
 	{
 		TNode* tmpP = pCurr;
 		TStack<TNode*> tmpS = st;
@@ -39,14 +39,14 @@ public:
 			i++;
 		pCurr->str[i] = '<';
 		pCurr->str[i + 1] = '\0';
-	}
+	}*/
 	void GoNextLine()
 	{
 		if (pCurr != nullptr) {
 			st.Push(pCurr);
 			pCurr = pCurr->pNext;
 			//
-			Pointer();
+			//Pointer();
 		}
 		else throw - 1;
 	}
@@ -62,7 +62,7 @@ public:
 				i++;
 			pCurr->str[i] = '<';
 			pCurr->str[i + 1] = '\0';*/
-			Pointer();
+			//Pointer();
 		}
 		else throw - 1;
 	}
@@ -73,7 +73,7 @@ public:
 			pCurr = pFirst;
 			st.Clear();
 			//
-			Pointer();
+			//Pointer();
 		}
 		else throw - 1;
 	}
@@ -84,7 +84,7 @@ public:
 			pCurr = st.Pop();
 		else throw - 1;
 		//
-		Pointer();
+		//Pointer();
 	}
 
 	void InsNextLine(char str[])
@@ -179,7 +179,10 @@ public:
 	void PrintRec(TNode* p, int c)
 	{
 		if (p) {
-			cout << p->str << endl;
+			if (pCurr == p)
+				cout << p->str << '<' << endl;
+			else
+				cout << p->str << endl;
 			if (p->pDown) {
 				c++;
 				for (int i = 0; i < c - 1; i++)
@@ -208,9 +211,9 @@ public:
 			}
 		}
 	}
-	void SaveRec(ofstream& os, TNode* p, int c)
+	void SaveRec(ofstream& os, TNode* p)//int c
 	{
-		TNode* tmpP = pCurr;
+		/*TNode* tmpP = pCurr;
 		TStack<TNode*> tmpS = st;
 		for (Reset(); !IsEnd(); GoNext())
 		{
@@ -222,9 +225,9 @@ public:
 			}
 		}
 		pCurr = tmpP;
-		st = tmpS;
+		st = tmpS;*/
 		//
-		if (p) {
+		/*if (p) {
 			os << p->str << endl;
 			if (p->pDown) {
 				c++;
@@ -252,18 +255,29 @@ public:
 				}
 				SaveRec(os, p->pNext, c);
 			}
+		}*/
+
+		if (p) {
+			os << p->str << endl;
+			if (p->pDown) {
+				os << '{' << endl;
+				SaveRec(os,p->pDown);
+				os << '}' << endl;
+			}
+			if (p->pNext) {
+				SaveRec(os, p->pNext);
+			}
 		}
 	}
 	void Save(char* fn)
 	{
 		ofstream os(fn);
-		SaveRec(os, pFirst, 0);
+		SaveRec(os, pFirst);//0
 	}
 	void Print()
 	{
 		//count = 0;
 		PrintRec(pFirst, 0);
-		
 	}
 	bool IsEnd() { return st.Empty(); }
 	void Reset()
@@ -276,11 +290,11 @@ public:
 		if (pCurr->pDown)
 			st.Push(pCurr->pDown);
 		//Pointer();
-		int i = 0;
+		/*int i = 0;
 		while (pCurr->str[i] != '\0')
 			i++;
 		pCurr->str[i] = '<';
-		pCurr->str[i + 1] = '\0';
+		pCurr->str[i + 1] = '\0';*/
 	}
 	void GoNext()
 	{
